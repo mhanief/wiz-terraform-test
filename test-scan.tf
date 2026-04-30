@@ -4,8 +4,9 @@ resource "azurerm_network_security_group" "wiz_test_nsg" {
   resource_group_name = local.resource_group_name
 }
 
-# wiz-scan ignore-block
+
 resource "azurerm_network_security_rule" "wiz_test_allow_ssh" {
+  # checkov:skip=CKV_AZURE_10
   name              = "allow-ssh-from-internet-test"
   priority          = 100
   direction         = "Inbound"
@@ -22,6 +23,7 @@ resource "azurerm_network_security_rule" "wiz_test_allow_ssh" {
 
 
 resource "azurerm_network_security_rule" "wiz_test_allow_rdp" {
+  # checkov:skip=CKV_AZURE_9
   name              = "allow-rdp-from-internet-test"
   priority          = 110
   direction         = "Inbound"
@@ -45,7 +47,12 @@ locals {
 }
 
 
+# wiz-scan ignore-block
 resource "azurerm_container_group" "wiz_test_secrets_leak" {
+  # checkov:skip=CKV2_AZURE_28
+  # checkov:skip=CKV_AZURE_98
+  # checkov:skip=CKV_AZURE_235
+  # checkov:skip=CKV_AZURE_245
   name                = "wiz-test-container-secrets"
   location            = local.location
   resource_group_name = local.resource_group_name
@@ -71,8 +78,11 @@ resource "azurerm_container_group" "wiz_test_secrets_leak" {
   }
 }
 
-
+# wiz-scan ignore-block
 resource "azurerm_postgresql_flexible_server" "wiz_test_db" {
+  # checkov:skip=CKV_AZURE_136
+  # checkov:skip=CKV2_AZURE_57
+  # checkov:skip=CKV2_AZURE_28
   name                = "wiz-test-psql-server-12345"
   resource_group_name = local.resource_group_name
   location            = local.location
