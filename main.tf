@@ -2,7 +2,9 @@ provider "azurerm" {
   features {}
 
   skip_provider_registration = true
-}
+
+  # 👇 THIS is the key part
+  use_cli = false
 
 resource "azurerm_resource_group" "wiz_test_rg" {
   name     = "wiz-test-rg"
