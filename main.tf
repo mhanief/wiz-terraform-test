@@ -2,14 +2,16 @@ terraform {
   required_version = ">= 1.0"
 }
 
-# Dummy resource (so Terraform has something to process)
-resource "null_resource" "example" {
-  provisioner "local-exec" {
-    command = "echo insecure"
-  }
+# AWS S3 public bucket (VERY commonly detected)
+resource "aws_s3_bucket" "public_bucket" {
+  bucket = "wiz-test-public-bucket-12345"
 }
 
-# Hardcoded secret (Wiz should flag this)
-locals {
-  password = "SuperSecret123!"
+resource "aws_s3_bucket_public_access_block" "bad" {
+  bucket = aws_s3_bucket.public_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
 }
