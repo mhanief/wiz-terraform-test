@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 1.0"
 }
 
-# 🚨 Kubernetes pod running as root (very commonly flagged)
+# Kubernetes pod running as root (very commonly flagged)
 resource "kubernetes_pod" "bad" {
   metadata {
     name = "insecure-pod"
